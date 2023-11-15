@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "cook",
-  "displayName": "cook"
-=======
   "expo": {
     "name": "cuisine",
     "slug": "cuisine",
@@ -31,5 +27,4 @@
       "favicon": "./assets/favicon.png"
     }
   }
->>>>>>> master
 }
