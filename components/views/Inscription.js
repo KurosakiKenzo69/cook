@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import {registerUser} from '../../global/db/DB';
 import { useNavigation } from '@react-navigation/native'
 import ComponentButton from "./elements/ComponentButton";
 import {navigationRef} from "../../global/navigation/RootNavigation"
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../config/dbConfig";
+
+
 
 
 const Inscription = () => {
@@ -14,8 +17,15 @@ const Inscription = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [users, setUsers] = useState([]);
 
-  
+  useEffect(() => {
+
+    const userQuery = collection(db, 'user');
+    onSnapshot(userQuery, (snapshot) => {
+
+    });
+  });
 
   const handleSignUp = async () => {
     try {
@@ -26,8 +36,9 @@ const Inscription = () => {
         login: email,
         password: password
       };
-      const userId = await registerUser(userData);
-      console.log('Utilisateur n°:', userId);
+
+      const docRef = await addDoc(collection(db, 'user'), userData);
+      console.log('Utilisateur ajouté avec l\'ID:', docRef.id);
 
       // Réinitialiser les états après l'inscription réussie
       setFirstName('');
@@ -36,8 +47,11 @@ const Inscription = () => {
       setEmail('');
       setPassword('');
       setAgreed(false);
+
+      // Naviguer vers une autre page après inscription
+      // (si nécessaire)
     } catch (error) {
-      console.error('Error signing up:', error);
+      console.error('Erreur lors de l\'inscription :', error);
       // Gérer l'erreur ici (par exemple, afficher un message à l'utilisateur)
     }
   };
