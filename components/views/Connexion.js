@@ -46,7 +46,7 @@ const Connexion = () => {
       <TouchableOpacity onPress={() => console.log('Mot de passe oublié')}>
       <Text style={styles.forgotPasswordButton}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={navigation.navigate('Inscription')}>
         <Text style={styles.signUpButton}> S'inscrire </Text>
       </TouchableOpacity>
       </View>
