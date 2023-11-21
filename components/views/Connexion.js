@@ -3,8 +3,6 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import {useNavigation} from "@react-navigation/native";
 import inscription from "./Inscription";
 import ComponentButton from "./elements/ComponentButton";
-import {navigationRef} from "../../global/navigation/RootNavigation"
-
 
 const Connexion = () => {
   const [username, setUsername] = useState('');

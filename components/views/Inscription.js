@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
-import ComponentButton from "./elements/ComponentButton";
-import {navigationRef} from "../../global/navigation/RootNavigation"
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../config/dbConfig";
-
-
-
+import { useNavigation } from '@react-navigation/native';
+import ComponentButton from './elements/ComponentButton';
+import {db} from '../config/dbConfig'
 
 const Inscription = () => {
   const navigation = useNavigation();
@@ -17,15 +12,6 @@ const Inscription = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [agreed, setAgreed] = useState(false);
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-
-    const userQuery = collection(db, 'user');
-    onSnapshot(userQuery, (snapshot) => {
-
-    });
-  });
 
   const handleSignUp = async () => {
     try {
@@ -60,7 +46,6 @@ const Inscription = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Inscription</Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nom</Text>
         <TextInput
           style={styles.input}
           placeholder="Nom"
@@ -69,7 +54,6 @@ const Inscription = () => {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Prénom</Text>
         <TextInput
           style={styles.input}
           placeholder="Prénom"
@@ -78,7 +62,6 @@ const Inscription = () => {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Téléphone</Text>
         <TextInput
           style={styles.input}
           placeholder="Téléphone"
@@ -87,7 +70,6 @@ const Inscription = () => {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -96,7 +78,6 @@ const Inscription = () => {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Mot de passe</Text>
         <TextInput
           style={styles.input}
           placeholder="Mot de passe"
@@ -105,17 +86,10 @@ const Inscription = () => {
           value={password}
         />
       </View>
-      <View style={styles.checkboxContainer}>
-        <ComponentButton onPress={() => setAgreed(!agreed)}>
-          <View style={styles.checkbox}>
-            {agreed ? <Text style={styles.checkmark}>&#10003;</Text> : null}
-          </View>
-        </ComponentButton>
-        <Text style={styles.checkboxLabel}>J'accepte les conditions d'utilisation</Text>
-      </View>
-      <ComponentButton text="S'inscrire" />
-
-      <ComponentButton text="Déjà un compte ?" style={styles.signInButton}></ComponentButton>
+      <ComponentButton text="S'inscrire" onPress={handleSignUp} />
+      <TouchableOpacity onPress={() => navigation.navigate('Connexion')}>
+        <Text style={styles.signInButton}>Déjà un compte ?</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -126,55 +100,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 45,
+    backgroundColor: '#fff', // Fond blanc
   },
   title: {
     fontSize: 24,
     color: '#3d8af7',
     marginBottom: 30,
+    fontWeight: 'bold',
   },
   inputContainer: {
     width: '100%',
     marginBottom: 15,
-  },
-  label: {
-    color: '#3d8af7',
-    alignSelf: 'flex-start',
-    fontWeight: 'bold',
-    marginLeft: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc', // Bordure basse grise pour les champs
   },
   input: {
     height: 40,
     width: '100%',
-    borderColor: 'gray',
-    borderBottomWidth: 1,
-    borderRadius: 5,
     paddingHorizontal: 10,
   },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  checkbox: {
-    height: 20,
-    width: 20,
-    borderColor: '#3d8af7',
-    borderWidth: 1,
-    borderRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  checkmark: {
-    fontSize: 12,
-    color: '#3d8af7',
-  },
-  checkboxLabel: {
-    color: '#3d8af7',
-  },
   signInButton: {
-    color: 'gray',
+    color: '#3d8af7',
     marginTop: 20,
+    textDecorationLine: 'underline', // Texte souligné
   },
 });
 
