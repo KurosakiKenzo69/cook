@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import Button from './elements/Button'; // Assurez-vous du chemin correct
+import {useNavigation} from "@react-navigation/native";
+import inscription from "./Inscription";
+import ComponentButton from "./elements/ComponentButton";
+import {navigationRef} from "../../global/navigation/RootNavigation"
+
 
 const Connexion = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   const handleLogin = () => {
     // Votre logique de connexion ici (par exemple, avec la base de données)
@@ -13,42 +18,37 @@ const Connexion = () => {
     // Ajoutez votre logique pour vérifier les identifiants et authentifier l'utilisateur
   };
 
-  const handleForgotPassword = () => {
-    // Logique pour gérer le mot de passe oublié
-  };
-
-  const handleSignUp = () => {
-    // Logique pour gérer l'inscription
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cook</Text>
-      <Text style={styles.h2}>Connexion</Text>
-      <Text style={styles.label}>Nom d'utilisateur</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nom d'utilisateur"
-        onChangeText={(text) => setUsername(text)}
-        value={username}
-      />
-      <Text style={styles.label}>Mot de passe</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        secureTextEntry
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-      />
-      <Button text="Se connecter" onPress={handleLogin} />
+      <Text style={styles.title}>Connexion</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Nom d'utilisateur</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Nom d'utilisateur"
+          onChangeText={(text) => setUsername(text)}
+          value={username}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Mot de passe</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Mot de passe"
+          secureTextEntry
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+        />
+      </View>
 
-      <View style={styles.bottomButtonsContainer}>
-        <TouchableOpacity onPress={handleForgotPassword}>
-          <Text style={styles.forgotPasswordButton}>Mot de passe oublié</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text style={styles.signUpButton}>Inscription</Text>
-        </TouchableOpacity>
+      <ComponentButton text="Se connecter" onPress={handleLogin} />
+      <View style={styles.buttonsBottom}>
+      <TouchableOpacity onPress={() => console.log('Mot de passe oublié')}>
+      <Text style={styles.forgotPasswordButton}>Mot de passe oublié ?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Text style={styles.signUpButton}> S'inscrire </Text>
+      </TouchableOpacity>
       </View>
     </View>
   );
@@ -61,20 +61,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 45,
   },
-
-  h2: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 45,
-    marginEnd: 200,
-  },
-
   title: {
     fontSize: 24,
     color: '#3d8af7',
-    marginBottom: 100,
-    marginTop: 100,
-    fontWeight: 'bold',
+    marginBottom: 30,
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 15,
   },
   label: {
     color: '#3d8af7',
@@ -87,20 +81,24 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 15,
-  },
-  bottomButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingTop: 300,
   },
   forgotPasswordButton: {
     color: 'gray',
   },
   signUpButton: {
     color: '#3d8af7',
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    fontWeight: "bold",
+    position: "relative",
+    bottom: 10,
+    
   },
+  buttonsBottom: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 30
+  }
 });
 
 export default Connexion;

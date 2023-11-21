@@ -1,13 +1,17 @@
 import React from "react";
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-const Button = ({ text, onPress, style, type }) => {
+const ComponentButton = ({ text, onPress, style, type }) => {
   const buttonStyles =
     type === 'outline'
       ? [styles.buttonOutline, style]
       : type === 'text'
       ? [styles.buttonText, style]
-      : [styles.button, style];
+      : type === 'textGray'
+      ? [styles.buttonGray, style]
+      : [styles.button, style]
+      
+      
 
   const textStyles =
     type === 'text'
@@ -19,6 +23,7 @@ const Button = ({ text, onPress, style, type }) => {
     </Pressable>
   );
 };
+
 
 const styles = StyleSheet.create({
   button: {
@@ -46,10 +51,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
   },
+  buttonGray: {
+    color: '#A9A9A9',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     color: 'white',
     fontWeight: 'bold',
   },
 });
 
-export default Button;
+export default ComponentButton;
