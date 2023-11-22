@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-import inscription from "./Inscription";
 import ComponentButton from "./elements/ComponentButton";
 
 const Connexion = () => {
@@ -10,10 +9,9 @@ const Connexion = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    // Votre logique de connexion ici (par exemple, avec la base de données)
     console.log('Username:', username);
     console.log('Password:', password);
-    // Ajoutez votre logique pour vérifier les identifiants et authentifier l'utilisateur
+    
   };
 
   return (
@@ -39,15 +37,20 @@ const Connexion = () => {
         />
       </View>
 
-      <ComponentButton text="Se connecter" onPress={handleLogin} />
-      <View style={styles.buttonsBottom}>
-      <TouchableOpacity onPress={() => console.log('Mot de passe oublié')}>
-      <Text style={styles.forgotPasswordButton}>Mot de passe oublié ?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigation.navigate('Inscription')}>
-        <Text style={styles.signUpButton}> S'inscrire </Text>
-      </TouchableOpacity>
-      </View>
+      {/* onPress={handleLogin} */}
+
+      <ComponentButton text="Se connecter"/>
+        <View style={styles.buttonsBottom}>
+          <TouchableOpacity onPress={() => console.log('Mot de passe oublié')}>
+            <Text style={styles.forgotPasswordButton}>Mot de passe oublié ?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+          navigation.navigate('Inscription');
+          }}>
+          <Text style={styles.signUpButton}> S'inscrire </Text>
+          </TouchableOpacity>
+
+        </View>
     </View>
   );
 };

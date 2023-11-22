@@ -6,7 +6,6 @@ import { createStackNavigator} from '@react-navigation/stack';
 import {useEffect, useState} from "react";
 import Connexion from './components/views/Connexion';
 import Inscription from './components/views/Inscription';
-import {navigationRef} from "./global/navigation/RootNavigation";
 
 
 const Stack = createStackNavigator();
@@ -16,13 +15,13 @@ const Stack = createStackNavigator();
 function App() {
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="Connexion">
-        <Stack.Screen name="Connexion" component={Connexion} options={{headerShown: false}}/>
-        <Stack.Screen name="Inscription" component={Inscription} options={{headerShown: false}}/>
-        {/* Ajoutez vos autres écrans ici */}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Connexion" component={Connexion} options={{headerShown: false}} />
+        <Stack.Screen
+          name="Inscription" component={Inscription} options={{ headerShown: false }} />
       </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
     );
 }
 
