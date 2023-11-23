@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator} from '@react-navigation/stack';
-//import db, {createTables} from './global/db/DB.js'
 import {useEffect, useState} from "react";
 import Connexion from './components/views/Connexion';
 import Inscription from './components/views/Inscription';

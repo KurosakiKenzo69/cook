@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ComponentButton from './elements/ComponentButton';
-import {db} from '../config/dbConfig'
 
 const Inscription = () => {
   const navigation = useNavigation();
@@ -10,32 +9,39 @@ const Inscription = () => {
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [agreed, setAgreed] = useState(false);
 
   const handleSignUp = async () => {
-    try {
+    try {expo 
       const userData = {
         name: `${firstName} ${lastName}`,
         tel: phone,
         mail: email,
         login: email,
-        password: password
+        password: password,
       };
 
-      const docRef = await addDoc(collection(db, 'user'), userData);
-      console.log('Utilisateur ajouté avec l\'ID:', docRef.id);
+      // Envoi de la requête HTTP POST vers votre API PHP
+      const response = await fetch('http://localhost/apiCook/createUser.php?action=createUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+
+      const result = await response.json();
+      console.log(result.message); // Affichage du message de la réponse
 
       // Réinitialiser les états après l'inscription réussie
       setFirstName('');
       setLastName('');
       setPhone('');
       setEmail('');
+      setLogin('');
       setPassword('');
-      setAgreed(false);
-
-      // Naviguer vers une autre page après inscription
-      // (si nécessaire)
     } catch (error) {
       console.error('Erreur lors de l\'inscription :', error);
     }
@@ -79,6 +85,14 @@ const Inscription = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          placeholder="Login"
+          onChangeText={(text) => setLogin(text)}
+          value={login}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
           placeholder="Mot de passe"
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
@@ -86,9 +100,9 @@ const Inscription = () => {
         />
       </View>
       <ComponentButton text="S'inscrire" onPress={handleSignUp} />
-      <TouchableOpacity onPress={() => navigation.navigate('Connexion')}>
+      <Pressable onPress={() => navigation.navigate('Connexion')}>
         <Text style={styles.signInButton}>Déjà un compte ?</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
