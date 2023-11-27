@@ -7,6 +7,7 @@ import axios from 'axios';
 const Inscription = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
+  const [prenom, setPrenom] = useState(''); 
   const [tel, setTel] = useState('');
   const [mail, setMail] = useState('');
   const [login, setLogin] = useState('');
@@ -16,14 +17,27 @@ const Inscription = () => {
     if (name === '' || tel === '' || mail === '' || login === '' || password === '') {
       Alert.alert('Champs manquants', 'Veuillez remplir tous les champs');
       return;
+      
     }
 
-    const api = 'http://192.168.1.180/apiCook/createUser.php';
+    const validateEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    if (!validateEmail(email)) {
+      Alert.alert('Email invalide', 'Veuillez saisir un email valide');
+      return;
+    }
+
+    const fullName = `${name} ${prenom}`;
+
+    const api = ' https://5d5b-2a01-e0a-cb8-5c60-b915-8df1-24e6-ec07.ngrok-free.app/cookApiv2/postUser.php';
     const headers = {
       'Content-Type': 'application/json'
     };
     const data = {
-      name: name,
+      name: fullName,
       tel: tel,
       mail: mail,
       login: login,
@@ -40,7 +54,7 @@ const Inscription = () => {
         console.log(result.message); // Affichage du message de la réponse
   
         // Rediriger vers Accueil.js après inscription réussie
-        navigation.navigate('Accueil');
+        navigation.navigate('Connexion');
       } else {
         throw new Error('Erreur lors de la requête vers l\'API');
       }
@@ -64,6 +78,14 @@ const Inscription = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          placeholder="Prenom"
+          onChangeText={(text) => setPrenom(text)}
+          value={prenom}
+        />
+        </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
           placeholder="Téléphone"
           onChangeText={(text) => setTel(text)}
           value={tel}
@@ -75,6 +97,7 @@ const Inscription = () => {
           placeholder="Email"
           onChangeText={(text) => setMail(text)}
           value={mail}
+          autoCapitalize='none'
         />
       </View>
       <View style={styles.inputContainer}>
@@ -83,6 +106,7 @@ const Inscription = () => {
           placeholder="Login"
           onChangeText={(text) => setLogin(text)}
           value={login}
+          autoCapitalize="none"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -92,6 +116,7 @@ const Inscription = () => {
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
+          autoCapitalize="none"
         />
       </View>
       <ComponentButton text="S'inscrire" onPress={handleSignUp} />

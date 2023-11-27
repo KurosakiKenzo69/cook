@@ -1,17 +1,46 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import ComponentButton from "./elements/ComponentButton";
+import axios from 'axios';
 
 const Connexion = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    console.log('Username:', username);
-    console.log('Password:', password);
+  const handleLogin = async () => {
+    if (username === '' || password === '') {
+      Alert.alert('Champs manquants', 'Veuillez remplir tous les champs');
+      return;
+    }
+    const api = ' https://5d5b-2a01-e0a-cb8-5c60-b915-8df1-24e6-ec07.ngrok-free.app/cookApiv2/connectUser.php';
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+
+    const data = {
+      login: username,
+      password: password
+    };
     
+    try {
+      const response = await axios.post(api, data, {
+        headers: headers,
+      });
+
+      if (response.status === 200) {
+        const result = response.data;
+        console.log(result.message); // Affichage du message de la réponse
+        navigation.navigate('Accueil');
+      }
+      else {
+        throw new Error('Erreur lors de la requête vers l\'API');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la connexion :', error);
+      Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion', error);
+    }
   };
 
   return (
@@ -24,6 +53,7 @@ const Connexion = () => {
           placeholder="Nom d'utilisateur"
           onChangeText={(text) => setUsername(text)}
           value={username}
+          autoCapitalize='none'
         />
       </View>
       <View style={styles.inputContainer}>
@@ -34,23 +64,21 @@ const Connexion = () => {
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
+          autoCapitalize='none'
         />
       </View>
 
-      {/* onPress={handleLogin} */}
-
-      <ComponentButton text="Se connecter"/>
-        <View style={styles.buttonsBottom}>
-          <TouchableOpacity onPress={() => console.log('Mot de passe oublié')}>
-            <Text style={styles.forgotPasswordButton}>Mot de passe oublié ?</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
+      <ComponentButton text="Se connecter" onPress={handleLogin} />
+      <View style={styles.buttonsBottom}>
+        <TouchableOpacity onPress={() => console.log('Mot de passe oublié')}>
+          <Text style={styles.forgotPasswordButton}>Mot de passe oublié ?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
           navigation.navigate('Inscription');
-          }}>
+        }}>
           <Text style={styles.signUpButton}> S'inscrire </Text>
-          </TouchableOpacity>
-
-        </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -93,7 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "relative",
     bottom: 10,
-    
   },
   buttonsBottom: {
     display: "flex",
