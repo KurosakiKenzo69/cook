@@ -1,49 +1,52 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Pressable, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ComponentButton from './elements/ComponentButton';
+import axios from 'axios';
 
 const Inscription = () => {
   const navigation = useNavigation();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [tel, setTel] = useState('');
+  const [mail, setMail] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const [agreed, setAgreed] = useState(false);
 
   const handleSignUp = async () => {
-    try {expo 
-      const userData = {
-        name: `${firstName} ${lastName}`,
-        tel: phone,
-        mail: email,
-        login: email,
-        password: password,
-      };
+    if (name === '' || tel === '' || mail === '' || login === '' || password === '') {
+      Alert.alert('Champs manquants', 'Veuillez remplir tous les champs');
+      return;
+    }
 
-      // Envoi de la requête HTTP POST vers votre API PHP
-      const response = await fetch('http://localhost/apiCook/createUser.php?action=createUser', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
+    const api = 'http://192.168.1.180/apiCook/createUser.php';
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    const data = {
+      name: name,
+      tel: tel,
+      mail: mail,
+      login: login,
+      password: password
+    };
+
+    try {
+      const response = await axios.post(api, data, {
+        headers: headers,
       });
-
-      const result = await response.json();
-      console.log(result.message); // Affichage du message de la réponse
-
-      // Réinitialiser les états après l'inscription réussie
-      setFirstName('');
-      setLastName('');
-      setPhone('');
-      setEmail('');
-      setLogin('');
-      setPassword('');
+  
+      if (response.status === 200) {
+        const result = response.data;
+        console.log(result.message); // Affichage du message de la réponse
+  
+        // Rediriger vers Accueil.js après inscription réussie
+        navigation.navigate('Accueil');
+      } else {
+        throw new Error('Erreur lors de la requête vers l\'API');
+      }
     } catch (error) {
       console.error('Erreur lors de l\'inscription :', error);
+      Alert.alert('Erreur', 'Une erreur est survenue lors de l\'inscription', error);
     }
   };
 
@@ -54,32 +57,24 @@ const Inscription = () => {
         <TextInput
           style={styles.input}
           placeholder="Nom"
-          onChangeText={(text) => setFirstName(text)}
-          value={firstName}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Prénom"
-          onChangeText={(text) => setLastName(text)}
-          value={lastName}
+          onChangeText={(text) => setName(text)}
+          value={name}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Téléphone"
-          onChangeText={(text) => setPhone(text)}
-          value={phone}
+          onChangeText={(text) => setTel(text)}
+          value={tel}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Email"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
+          onChangeText={(text) => setMail(text)}
+          value={mail}
         />
       </View>
       <View style={styles.inputContainer}>

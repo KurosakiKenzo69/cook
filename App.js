@@ -5,6 +5,7 @@ import { createStackNavigator} from '@react-navigation/stack';
 import {useEffect, useState} from "react";
 import Connexion from './components/views/Connexion';
 import Inscription from './components/views/Inscription';
+import Accueil from './components/views/Accueil';
 
 
 const Stack = createStackNavigator();
@@ -17,8 +18,8 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Connexion" component={Connexion} options={{headerShown: false}} />
-        <Stack.Screen
-          name="Inscription" component={Inscription} options={{ headerShown: false }} />
+        <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
+        <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
       </Stack.Navigator>
       </NavigationContainer>
     );
