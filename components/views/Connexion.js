@@ -14,7 +14,7 @@ const Connexion = () => {
       Alert.alert('Champs manquants', 'Veuillez remplir tous les champs');
       return;
     }
-    const api = ' https://5d5b-2a01-e0a-cb8-5c60-b915-8df1-24e6-ec07.ngrok-free.app/cookApiv2/connectUser.php';
+    const api = ' https://f023-2a04-cec0-1061-873-e10a-86c1-fa8f-706e.ngrok-free.app/apiCook/connectUser.php';
     const headers = {
       'Content-Type': 'application/json'
     };
@@ -31,8 +31,7 @@ const Connexion = () => {
 
       if (response.status === 200) {
         const result = response.data;
-        console.log(result.message); // Affichage du message de la réponse
-        navigation.navigate('Accueil');
+        navigation.navigate('Cocktail');
       }
       else {
         throw new Error('Erreur lors de la requête vers l\'API');

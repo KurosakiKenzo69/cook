@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import Connexion from './components/views/Connexion';
 import Inscription from './components/views/Inscription';
 import Accueil from './components/views/Accueil';
+import Cocktail from './components/views/Cocktail';
 
 
 const Stack = createStackNavigator();
@@ -20,6 +21,7 @@ function App() {
         <Stack.Screen name="Connexion" component={Connexion} options={{headerShown: false}} />
         <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
         <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
+        <Stack.Screen name="Cocktail" component={Cocktail} options={{ headerShown: false }} />
       </Stack.Navigator>
       </NavigationContainer>
     );

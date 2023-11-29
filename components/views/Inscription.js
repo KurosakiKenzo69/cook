@@ -12,6 +12,7 @@ const Inscription = () => {
   const [mail, setMail] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  
 
   const handleSignUp = async () => {
     if (name === '' || tel === '' || mail === '' || login === '' || password === '') {
@@ -20,19 +21,19 @@ const Inscription = () => {
       
     }
 
-    const validateEmail = (email) => {
+    const validateEmail = (mail) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
+      return emailRegex.test(mail);
     };
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(mail)) {
       Alert.alert('Email invalide', 'Veuillez saisir un email valide');
       return;
     }
 
     const fullName = `${name} ${prenom}`;
 
-    const api = ' https://5d5b-2a01-e0a-cb8-5c60-b915-8df1-24e6-ec07.ngrok-free.app/cookApiv2/postUser.php';
+    const api = ' https://f023-2a04-cec0-1061-873-e10a-86c1-fa8f-706e.ngrok-free.app/apiCook/postUser.php';
     const headers = {
       'Content-Type': 'application/json'
     };
