@@ -18,7 +18,7 @@ const Inscription = () => {
       return;
     }
 
-    const api = 'http://192.168.1.180/apiCook/createUser.php';
+    const api = 'http://127.0.0.1/apiCook/postUser.php';
     const headers = {
       'Content-Type': 'application/json'
     };
