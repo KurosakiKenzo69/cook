@@ -14,7 +14,7 @@ const Connexion = () => {
       Alert.alert('Champs manquants', 'Veuillez remplir tous les champs');
       return;
     }
-    const api = ' https://f023-2a04-cec0-1061-873-e10a-86c1-fa8f-706e.ngrok-free.app/apiCook/connectUser.php';
+    const api = 'https://b4ca-159-84-186-206.ngrok-free.app/apiCook/connectUser.php';
     const headers = {
       'Content-Type': 'application/json'
     };

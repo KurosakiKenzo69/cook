@@ -12,28 +12,24 @@ const Inscription = () => {
   const [mail, setMail] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); 
   
 
   const handleSignUp = async () => {
-    if (name === '' || tel === '' || mail === '' || login === '' || password === '') {
+    if (name === '' || tel === '' || mail === '' || login === '' || password === '' || confirmPassword === '') {
       Alert.alert('Champs manquants', 'Veuillez remplir tous les champs');
       return;
       
     }
 
-    const validateEmail = (mail) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(mail);
-    };
-
-    if (!validateEmail(mail)) {
-      Alert.alert('Email invalide', 'Veuillez saisir un email valide');
+    if (password !== confirmPassword) {
+      Alert.alert('Les mots de passe ne correspondent pas');
       return;
     }
 
     const fullName = `${name} ${prenom}`;
 
-    const api = ' https://f023-2a04-cec0-1061-873-e10a-86c1-fa8f-706e.ngrok-free.app/apiCook/postUser.php';
+    const api = 'https://19d5-2a04-cec0-1071-360e-4c8f-1143-46ad-b8f0.ngrok-free.app/apiCook/postUser.php';
     const headers = {
       'Content-Type': 'application/json'
     };
@@ -120,6 +116,16 @@ const Inscription = () => {
           autoCapitalize="none"
         />
       </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Retapez votre mot de passe"
+          secureTextEntry
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+          autoCapitalize="none"
+        />
+      </View>
       <ComponentButton text="S'inscrire" onPress={handleSignUp} />
       <Pressable onPress={() => navigation.navigate('Connexion')}>
         <Text style={styles.signInButton}>Déjà un compte ?</Text>
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 45,
-    backgroundColor: '#fff', // Fond blanc
+    backgroundColor: '#fff', 
   },
   title: {
     fontSize: 24,
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc', // Bordure basse grise pour les champs
+    borderBottomColor: '#ccc', 
   },
   input: {
     height: 40,
@@ -156,7 +162,7 @@ const styles = StyleSheet.create({
   signInButton: {
     color: '#3d8af7',
     marginTop: 20,
-    textDecorationLine: 'underline', // Texte souligné
+    textDecorationLine: 'underline',
   },
 });
 
